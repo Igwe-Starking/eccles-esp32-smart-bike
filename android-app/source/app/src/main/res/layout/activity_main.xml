@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ===== connection header, mirrors the web UI's status pill ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/status_disconnected"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/hotspotButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_hotspot" />
+        </LinearLayout>
+
+        <!-- ===== device grid ===== -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_devices" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2">
+
+            <ToggleButton android:id="@+id/btnHeadlamp" style="@style/DeviceToggle" android:textOn="@string/headlamp" android:textOff="@string/headlamp" android:text="@string/headlamp"/>
+            <ToggleButton android:id="@+id/btnHorn" style="@style/DeviceToggle" android:textOn="@string/horn" android:textOff="@string/horn" android:text="@string/horn"/>
+            <ToggleButton android:id="@+id/btnLeftTurn" style="@style/DeviceToggle" android:textOn="@string/left_turn" android:textOff="@string/left_turn" android:text="@string/left_turn"/>
+            <ToggleButton android:id="@+id/btnRightTurn" style="@style/DeviceToggle" android:textOn="@string/right_turn" android:textOff="@string/right_turn" android:text="@string/right_turn"/>
+            <ToggleButton android:id="@+id/btnIgnition" style="@style/DeviceToggle" android:textOn="@string/ignition" android:textOff="@string/ignition" android:text="@string/ignition"/>
+            <ToggleButton android:id="@+id/btnStarter" style="@style/DeviceToggle" android:textOn="@string/starter" android:textOff="@string/starter" android:text="@string/starter"/>
+            <ToggleButton android:id="@+id/btnEngine" style="@style/DeviceToggle" android:textOn="@string/engine" android:textOff="@string/engine" android:text="@string/engine"/>
+        </GridLayout>
+
+        <!-- ===== sensor strip ===== -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_sensors" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fuelValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fuel_placeholder" />
+
+            <TextView
+                android:id="@+id/tempValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/temp_placeholder" />
+
+            <Button
+                android:id="@+id/refreshSensorsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh" />
+        </LinearLayout>
+
+        <!-- ===== bluetooth transport controls ===== -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_bluetooth" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnBtPrev" style="@style/TransportButton" android:text="@string/prev" />
+            <Button android:id="@+id/btnBtPlayPause" style="@style/TransportButton" android:text="@string/play" />
+            <Button android:id="@+id/btnBtNext" style="@style/TransportButton" android:text="@string/next" />
+            <Button android:id="@+id/btnBtVolDown" style="@style/TransportButton" android:text="@string/vol_down" />
+            <Button android:id="@+id/btnBtVolUp" style="@style/TransportButton" android:text="@string/vol_up" />
+        </LinearLayout>
+
+        <!-- ===== conversation ===== -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_conversation" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnStartAi" style="@style/TransportButton" android:text="@string/start_ai" />
+            <Button android:id="@+id/btnStartReal" style="@style/TransportButton" android:text="@string/start_real" />
+            <Button android:id="@+id/btnCancelConversation" style="@style/TransportButton" android:text="@string/cancel" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/conversationStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/conversation_idle" />
+
+        <!-- ===== command terminal ===== -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_terminal" />
+        <TextView
+            android:id="@+id/logView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#101418"
+            android:textColor="#B7F7B7"
+            android:fontFamily="monospace"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <EditText
+                android:id="@+id/commandInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/type_command_hint"
+                android:imeOptions="actionSend"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/micButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mic" />
+
+            <Button
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

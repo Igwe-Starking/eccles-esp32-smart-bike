@@ -1,0 +1,200 @@
+/* ─── Reset & Base ─────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;
+  --surface:#13131c;
+  --surface2:#1c1c2a;
+  --border:#2a2a3d;
+  --accent:#f59e0b;
+  --accent2:#3b82f6;
+  --green:#22c55e;
+  --red:#ef4444;
+  --orange:#f97316;
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --radius:14px;
+  --shadow:0 4px 24px rgba(0,0,0,.6);
+}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding-bottom:3rem;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+header{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.4rem;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+}
+header svg{width:40px;height:40px;flex-shrink:0}
+.header-text{flex:1}
+.header-text h1{font-size:1.1rem;font-weight:700;letter-spacing:.02em}
+.badge{display:inline-block;padding:.2rem .7rem;border-radius:20px;font-size:.72rem;font-weight:600;margin-top:.25rem}
+.badge-off{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-on{background:rgba(34,197,94,.15);color:var(--green)}
+.power-dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);transition:all .4s}
+.power-dot.alive{background:var(--green);box-shadow:0 0 10px var(--green)}
+
+/* ─── Banner ────────────────────────────────────────────────────────────── */
+.banner{padding:.7rem 1.4rem;font-size:.85rem;font-weight:600;text-align:center;display:none}
+.banner-warn{background:rgba(249,115,22,.15);color:var(--orange);border-bottom:1px solid rgba(249,115,22,.3)}
+.banner.visible{display:block}
+
+/* ─── Main / Sections ───────────────────────────────────────────────────── */
+main{max-width:640px;margin:0 auto;padding:1.4rem 1rem}
+.section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.2rem 1.1rem;
+  margin-bottom:1.2rem;
+  box-shadow:var(--shadow);
+}
+.section-title{
+  font-size:.8rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;padding-bottom:.5rem;
+  border-bottom:1px solid var(--border);
+}
+
+/* ─── Device Grid ───────────────────────────────────────────────────────── */
+.device-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:.8rem;
+}
+.device-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1rem .8rem;
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  transition:all .2s;
+  position:relative;overflow:hidden;
+}
+.device-card::before{
+  content:'';position:absolute;inset:0;
+  background:var(--accent);opacity:0;
+  transition:opacity .25s;pointer-events:none;
+}
+.device-card:hover::before{opacity:.06}
+.device-card:active{transform:scale(.96)}
+.device-card.active{
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent),0 4px 16px rgba(245,158,11,.2);
+}
+.card-icon{font-size:1.6rem;line-height:1}
+.card-name{font-size:.78rem;font-weight:600;color:var(--text);text-align:center}
+.card-state{font-size:.65rem;font-weight:700;letter-spacing:.08em;padding:.18rem .5rem;border-radius:8px}
+.state-on{background:rgba(34,197,94,.2);color:var(--green)}
+.state-off{background:rgba(100,116,139,.15);color:var(--muted)}
+
+/* ─── Sensor Strip ──────────────────────────────────────────────────────── */
+.sensor-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.8rem;margin-bottom:1rem}
+.sensor-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.9rem .8rem;
+  display:flex;flex-direction:column;gap:.4rem;
+}
+.sensor-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.sensor-bar-wrap{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.sensor-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;transition:width .5s}
+.sensor-value{font-size:.95rem;font-weight:700;color:var(--text)}
+.sensor-actions{display:flex;justify-content:center}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────── */
+.btn-secondary{
+  padding:.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-domain{
+  flex:1;padding:.6rem;border-radius:10px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.btn-domain:hover{border-color:var(--accent);color:var(--accent)}
+.btn-transport{
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text);font-size:1.1rem;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn-transport:hover{background:var(--accent);border-color:var(--accent);color:#000}
+.btn-vol{
+  background:none;border:none;color:var(--muted);font-size:1.2rem;
+  cursor:pointer;padding:.25rem .5rem;transition:color .2s;
+}
+.btn-vol:hover{color:var(--text)}
+.btn-send{
+  padding:.55rem 1rem;border-radius:8px;
+  background:var(--accent);color:#000;border:none;
+  font-weight:700;font-size:.85rem;cursor:pointer;
+  transition:opacity .2s;white-space:nowrap;
+}
+.btn-send:hover{opacity:.85}
+
+/* ─── Domain Rows ───────────────────────────────────────────────────────── */
+.domain-row{display:flex;gap:.6rem;margin-bottom:.9rem}
+.transport-row{display:flex;justify-content:center;gap:.8rem;margin-bottom:.9rem}
+.volume-row{display:flex;align-items:center;gap:.6rem}
+#vol-slider{
+  flex:1;-webkit-appearance:none;height:5px;
+  border-radius:3px;background:var(--border);outline:none;
+}
+#vol-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--accent);cursor:pointer;
+}
+
+/* ─── AI / Text Input ───────────────────────────────────────────────────── */
+.ai-input-row,.terminal-row{display:flex;gap:.6rem;margin-top:.6rem}
+.text-input{
+  flex:1;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:.55rem .8rem;color:var(--text);
+  font-size:.85rem;outline:none;transition:border-color .2s;
+}
+.text-input:focus{border-color:var(--accent)}
+.text-input::placeholder{color:var(--muted)}
+
+/* ─── Terminal ──────────────────────────────────────────────────────────── */
+.terminal-help{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:.6rem .9rem;
+  font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:.6rem;
+}
+.terminal-help code{font-family:'Fira Code','Courier New',monospace;color:var(--accent)}
+.cmd-log{
+  margin-top:.8rem;max-height:180px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:.3rem;
+}
+.log-entry{
+  display:flex;align-items:flex-start;gap:.5rem;
+  padding:.35rem .6rem;border-radius:6px;font-size:.78rem;
+  background:var(--surface2);border-left:3px solid var(--border);
+}
+.log-entry.sent{border-left-color:var(--accent2)}
+.log-entry.recv{border-left-color:var(--green)}
+.log-entry.err {border-left-color:var(--red);color:var(--red)}
+.log-time{color:var(--muted);font-size:.68rem;white-space:nowrap;margin-top:.05rem}
+
+/* ─── Footer ────────────────────────────────────────────────────────────── */
+footer{text-align:center;padding:.8rem;font-size:.72rem;color:var(--muted);border-top:1px solid var(--border)}
+
+/* ─── Pulse animation (sensor alert) ───────────────────────────────────── */
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+.alert-pulse{animation:pulse-red 1.2s infinite}

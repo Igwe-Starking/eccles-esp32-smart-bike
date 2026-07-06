@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Eccles Smart Bike</string>
+
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_waiting_hotspot">Waiting for hotspot…</string>
+    <string name="status_waiting_bike">Waiting for the bike to join…</string>
+    <string name="status_connecting">Connecting to %1$s…</string>
+    <string name="status_connected">Connected to %1$s</string>
+    <string name="enable_hotspot">Enable Hotspot</string>
+
+    <string name="section_devices">Devices</string>
+    <string name="section_sensors">Sensors</string>
+    <string name="section_bluetooth">Bluetooth</string>
+    <string name="section_conversation">Conversation</string>
+    <string name="section_terminal">Command Terminal</string>
+
+    <string name="headlamp">Headlamp</string>
+    <string name="horn">Horn</string>
+    <string name="left_turn">Left Turn</string>
+    <string name="right_turn">Right Turn</string>
+    <string name="ignition">Ignition</string>
+    <string name="starter">Starter</string>
+    <string name="engine">Engine</string>
+
+    <string name="fuel_placeholder">Fuel: --</string>
+    <string name="temp_placeholder">Temp: --</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="prev">⏮</string>
+    <string name="play">▶</string>
+    <string name="pause">⏸</string>
+    <string name="next">⏭</string>
+    <string name="vol_up">Vol+</string>
+    <string name="vol_down">Vol-</string>
+
+    <string name="start_ai">Start AI</string>
+    <string name="start_real">Start Real</string>
+    <string name="cancel">Cancel</string>
+    <string name="conversation_idle">Conversation: idle</string>
+    <string name="conversation_active">Conversation: active</string>
+
+    <string name="type_command_hint">Type a command…</string>
+    <string name="mic">🎙</string>
+    <string name="send">Send</string>
+</resources>

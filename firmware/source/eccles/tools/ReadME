@@ -1,0 +1,93 @@
+eccles-tts-packager
+===================
+
+NOTE: this file previously described an older/different version of this tool (a different
+executable name, a different CLI syntax, a different config file format, and a claimed
+dependency on ffmpeg.exe). None of that matched the actual source in eccles/tools/src/, so
+this has been rewritten to match what the tool actually does today.
+
+WHAT IT DOES
+------------
+Scans a folder of .wav files, optionally resamples/converts each one to a common
+sample rate / bit depth / channel layout (all done in-process, no external tools like
+ffmpeg are used), strips trailing silence if requested, and packs every clip into a single
+binary blob (StaticModel.eccles) plus a generated C++ header (StaticModel.h) that the
+firmware uses to look clips up by name.
+
+Only STATIC model packaging is implemented. The source has scaffolding for a "dynamic"
+model type (ModelType::DYNAMIC in AudioConfig.h, a "-type dynamic" flag, a "type:dynamic"
+config key) but there is no DynamicModel class anywhere in this codebase -- selecting it
+will make the tool report an error rather than silently doing something else.
+
+BUILDING
+--------
+The executable name is eccles-tts-packager (eccles-tts-packager.exe on Windows). It's a
+plain host-native C++ program with no ESP-IDF/embedded dependencies, built via the
+"native" PlatformIO environment declared in the project's platformio.ini:
+
+    pio run -e native
+
+(or compile eccles/tools/src/*.cpp directly with any C++17 compiler). The resulting
+binary must be placed at eccles/tools/bin/ for the "-platformIO" invocation described
+below to find the resources/output folders correctly.
+
+USAGE
+-----
+    eccles-tts-packager -platformIO
+        Run from eccles/tools/bin/ inside the IDF project. Resolves everything relative to
+        the project root: reads eccles/resources/models/*.wav, writes the binary to
+        littlefs_image/StaticModel.eccles and the header to
+        components/eccles/include/StaticModel.h. This is what execute-tts-packager.py
+        (see the project root) invokes automatically as part of the "native" PlatformIO
+        build, whenever a file under eccles/resources/models/ changes.
+
+    eccles-tts-packager <wav-folder> [config.txt]
+        Run anywhere. Packs every .wav file in <wav-folder> (extension match is
+        case-insensitive) and writes StaticModel.eccles / StaticModel.h into the current
+        working directory. If a config file path is given (must contain ".txt"), its
+        settings are applied; otherwise the defaults below are used.
+
+CONFIG FILE FORMAT
+------------------
+A plain text file, one "key:value" setting per line. All keys are optional; anything not
+set keeps its default.
+
+    raw:1            skip all conversion below entirely and pack every .wav file exactly
+                      as-is (bytes untouched). Every file must then already share the same
+                      sample rate/depth/channel layout, or packing is rejected.
+    rate:<hz>         target sample rate, e.g. rate:16000
+    depth:<bits>      target bit depth, e.g. depth:16
+    channel:mono|stereo
+    tsr:true|false    trailing silence removal
+    type:static|dynamic   only "static" is actually implemented (see above)
+
+Defaults if no config file is supplied or a key is omitted:
+
+    rate:8000
+    depth:16
+    channel:mono
+    tsr:true
+
+OUTPUT FORMAT
+-------------
+StaticModel.eccles is a simple concatenation:
+
+    [ "ECCLES" magic][clip 1 audio bytes][clip 2 audio bytes][clip 3 audio bytes]...
+
+Each clip's own 44-byte .wav header is stripped before its audio bytes are appended;
+only the raw PCM payload is stored. StaticModel.h (generated alongside it) declares:
+
+    ECCLES_SAMPLE_RATE / ECCLES_BIT_DEPTH / ECCLES_CHANNELS   the shared format all clips
+                                                               were normalized to
+    a per-clip entry (offset, size, name) for every packaged file
+    a lookup helper the firmware uses to find a clip's offset/size by name
+
+Every packaged clip must end up sharing the exact same sample rate / bit depth / channel
+layout (that's the entire point of the config step above) -- the packager checks this
+after conversion and refuses to produce output if a clip doesn't match.
+
+--------------------------------------------------------------------------------------
+ALL RIGHTS RESERVED
+the model library build tool and its format are all designed and programmed by
+NWOBODO ECCLESIASTES CHIDERA A.K.A IGWE STARKING
+--------------------------------------------------------------------------------------

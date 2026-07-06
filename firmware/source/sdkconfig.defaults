@@ -1,0 +1,49 @@
+# sdkconfig.defaults for Eccles Bike Control (esp-idf port)
+# these are the non-default Kconfig options this firmware actually needs; everything else
+# is left at esp-idf's own defaults. run "idf.py menuconfig" after first build to regenerate
+# the full sdkconfig from this file plus the target's defaults.
+
+# use our custom partition table (nvs + factory app + littlefs) instead of idf's default layout
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+
+# classic bluetooth (bluedroid host, classic BT controller mode) - required by Bluetooth.cpp's
+# a2dp sink + avrcp controller, BLE alone is not enough since this project explicitly releases
+# BLE controller memory and only ever inits ESP_BT_MODE_BTDM/classic profiles
+CONFIG_BT_ENABLED=y
+CONFIG_BT_BLUEDROID_ENABLED=y
+CONFIG_BT_CLASSIC_ENABLED=y
+CONFIG_BT_A2DP_ENABLE=y
+CONFIG_BT_AVRC_ENABLE=y
+CONFIG_BT_AVRC_CT_ABS_VOL_ENABLE=y
+CONFIG_BT_SPP_ENABLED=n
+
+# littlefs component sizing
+CONFIG_LITTLEFS_MAX_FILES=10
+
+# the original arduino build's task watchdog defaulted to panicking on timeout with a
+# generous handful of seconds, eccles_installWDT(10) in main.cpp sets the real timeout at
+# runtime, this just ensures the idf-level wdt component itself is enabled
+CONFIG_ESP_TASK_WDT_EN=y
+CONFIG_ESP_TASK_WDT_INIT=n
+
+# power management — required by PowerManager.cpp for CPU frequency scaling and light sleep
+# TICKLESS_IDLE is disabled: we call esp_light_sleep_start() explicitly rather than
+# relying on the automatic FreeRTOS tickless idle, which gives us full control over
+# when the cpu sleeps and lets the WDT remain manageable
+CONFIG_PM_ENABLE=y
+CONFIG_ESP32_DEFAULT_CPU_FREQ_240=y
+CONFIG_FREERTOS_USE_TICKLESS_IDLE=n
+
+# main task (the task app_main/eccles_main runs in) needs a healthy stack since eccles_main
+# itself loops forever calling eccles_thread() rather than returning
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
+
+# pin BT controller to core 1 so it doesn't compete with the app on core 0
+CONFIG_BT_CTRL_PINNED_TO_CORE_1=y
+
+# lwIP needs broadcast support enabled for Transport's UDP broadcastIP()
+CONFIG_LWIP_IP_FORWARD=n
+CONFIG_LWIP_SO_REUSE=y
+CONFIG_HTTPD_WS_SUPPORT=y

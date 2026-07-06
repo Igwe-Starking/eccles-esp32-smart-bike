@@ -1,0 +1,10 @@
+# Name,   Type, SubType,  Offset,  Size, Flags
+# Eccles Bike Control partition table
+# nvs: NVS key-value storage (Configuration)
+# factory: main application
+# littlefs: LittleFS data partition (StaticModel.eccles, index.html, style.css, app.js)
+
+nvs,      data, nvs,      0x9000,  0x6000,
+phy_init, data, phy,      0xf000,  0x1000,
+factory,  app,  factory,  0x10000, 0x180000,
+littlefs, data, spiffs, 0x190000,0x160000,
