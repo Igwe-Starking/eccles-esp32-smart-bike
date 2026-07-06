@@ -204,7 +204,7 @@ It has zero ESP-IDF or Arduino dependency, so it builds and runs anywhere. Sourc
 
 This project began life as an **Arduino/PlatformIO** firmware — the original prototype is preserved here for history and comparison:
 
-🔗 **[igwe-starking/eccles-esp-arduino-smart-bike](https://github.com/igwe-starking/eccles-esp-arduino-smart-bike)**
+🔗 **[igwe-starking/eccles-esp32-arduino-smart-bike](https://github.com/igwe-starking/eccles-esp32-arduino-smart-bike)**
 
 That version worked, but it was fragile: Arduino-core abstractions over GPIO, ADC, DAC, WiFi, and Bluetooth introduced subtle bugs and instability, most notably a DAC audio fault that took roughly **two weeks of hardware-level debugging** (see [`docs/images/debugging/`](docs/images/debugging)) to finally track down.
 
