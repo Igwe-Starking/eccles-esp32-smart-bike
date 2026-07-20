@@ -37,7 +37,7 @@ ECCLES_API_ENTRY e_int eccles_main(e_int count,char* params[]){
 
     e_boolean dynamic = false;
 
-    for(e_uint8 i = 1; i < count; i++){ //start at 1: skip argv[0], the program's own path
+    for(e_int i = 1; i < count; i++){ //start at 1: skip argv[0], the program's own path
         if(strcmp("-platformIO",params[i]) == 0){
             globalState.platformIO = true;
         } else if(strcmp("-type",params[i]) == 0){
